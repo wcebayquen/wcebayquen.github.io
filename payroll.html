@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Payroll Program</h1>
+
+<p>Employee Name: <input id="name" type="text"></p>
+<p>Days Worked: <input id="days" type="number"></p>
+<p>Daily Rate: <input id="rate" type="number"></p>
+<p>Deductions: <input id="deduct" type="number"></p>
+
+<button onclick="addEmployee()">Add Employee</button>
+<button onclick="deleteEmployee()">Delete Employee</button>
+
+<table border="1" id="payrollTable">
+  <thead>
+    <tr>
+      <th>No.</th>
+      <th>Employee Name</th>
+      <th>Days Worked</th>
+      <th>Daily Rate</th>
+      <th>Gross Pay</th>
+      <th>Deductions</th>
+      <th>Net Pay</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<p><a href="index.html">Back to Home Page</a></p>
+
+<script>
+let employees = [];
+
+function addEmployee() {
+  let name = document.getElementById('name').value;
+  let days = document.getElementById('days').value * 1;
+  let rate = document.getElementById('rate').value * 1;
+  let deduct = document.getElementById('deduct').value * 1;
+  let gross = days * rate;
+  let net = gross - deduct;
+
+  employees.push({name, days, rate, gross, deduct, net});
+  renderTable();
+}
+
+function deleteEmployee() {
+  let line = prompt('Enter the Line Number to delete:');
+  let index = line - 1;
+  if (index >= 0 && index < employees.length) {
+    employees.splice(index, 1);
+    renderTable();
+  } else {
+    alert('Invalid Line Number');
+  }
+}
+
+function renderTable() {
+  let tbody = document.querySelector('#payrollTable tbody');
+  tbody.innerHTML = '';
+  for (let i = 0; i < employees.length; i++) {
+    let e = employees[i];
+    tbody.innerHTML += 
+      `<tr>
+        <td>${i+1}</td>
+        <td>${e.name}</td>
+        <td>${e.days}</td>
+        <td>${e.rate}</td>
+        <td>${e.gross}</td>
+        <td>${e.deduct}</td>
+        <td>${e.net}</td>
+      </tr>`;
+  }
+}
+</script>
+
+</body>
+</html>
